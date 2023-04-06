@@ -1,0 +1,11 @@
+zoxide:
+  description: |
+    A modern rust implementation of the `z` command that moves you to the best match directory
+    based on frequency of visited dirs or other variables, no matter your current position.
+    Equivalent of "teleportation" in terms of `cd` type commands.
+  priority: highest
+  type: CLI
+  alternatives:
+    - z
+  fallback:
+    - z

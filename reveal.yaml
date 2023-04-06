@@ -1,0 +1,10 @@
+---
+description: "This project is meant to make it easy to setup any new machine with all the packages and tools you like, in just one line of code (or one executable). Python, Go, Rust, Scoop, CLI Tools, Nerd-Fonts, Windows-Terminal, Oh-My-Posh / Starship.rs in a single click :)"
+author: "Arno V"
+option:
+  hash: true
+  slide number: c/t
+---
+- title: "A setup YAML file for new Windows installs"
+  doc: |
+    Hello!
