@@ -1,0 +1,183 @@
+{
+    "init": {
+        "description": "A series of commands and tools you must absolutely\ninstall first, before doing anything else\n",
+        "items": {
+            "Scoop": {
+                "description": "The single best package manager on Windows, chocolatey is\nsimilar but scoop is best.\n",
+                "type": "Package Manager",
+                "priority": "highest",
+                "commmands": [
+                    "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force",
+                    "irm get.scoop.sh | iex"
+                ]
+            },
+            "Aria2": {
+                "description": "Scoop can leverage Aria2 to download every package using parallel processes\nand thus make your installs go much faster. Very important to get first.\n"
+            },
+            "git": {
+                "description": "You can't do much without git nowadays, this is the most widely used,\nif not the 'universal' versioning tool. Any software that is distributed\nonline is most likely using git at some point of its integration pipeline.\nIf you don't have git, you can't download much on windows.\n",
+                "type": "CLI",
+                "priority": "highest",
+                "commands": [
+                    "scoop install git"
+                ]
+            },
+            "sudo": {
+                "description": "A famous command from the unix world that temporarily gives you administrator privileges\nfor the command you're about to run (only). A great way to quickly obtain admin privileges\nwhile running CLI tools.\n",
+                "type": "CLI",
+                "priority": "highest",
+                "commands": [
+                    "scoop install sudo"
+                ]
+            },
+            "Scoop-Buckets": {
+                "description": "Buckets are a way to group scoop packages. The barebones required\npackages are 'pre-installed' in the 'main' bucket, but then you can\nadd any bucket to have access to other repositories.\n",
+                "type": "Package repositories",
+                "priority": "highest",
+                "commands": [
+                    "scoop bucket add extras",
+                    "scoop bucket add versions",
+                    "scoop bucket add nerd-fonts"
+                ]
+            },
+            "Windows Terminal": {
+                "description": "Simply the best way to run shells and CLI apps on Windows\nas of today.\n",
+                "type": "Terminal",
+                "priority": "highest",
+                "commands": [
+                    "scoop install windows-terminal",
+                    "reg import $( Resolve-Path \"~\\scoop\\apps\\windows-terminal\\current\\install-context.reg\")",
+                    "scoop install vcredist2022",
+                    "scoop uninstall vcredist2022"
+                ]
+            },
+            "coreutils": {
+                "description": "A scoop package that helps you have access to important CLI basics which are\nusually pre-installed on unix but not on windows.\n",
+                "priority": "highest",
+                "type": "CLI"
+            },
+            "psutils": {
+                "description": "A scoop package that helps you have access to important CLI basics which are\nusually pre-installed on unix but not on windows.\n",
+                "priority": "highest",
+                "type": "CLI"
+            },
+            "zoxide": {
+                "description": "A native powershell implementation of the `z` command that moves you to the best match directory\nbased on frequency of visited dirs or other variables, no matter your current position.\nEquivalent of \"teleportation\" in terms of `cd` type commands.\n",
+                "type": "CLI",
+                "priority": "highest",
+                "commands": [
+                    "scoop install zoxide"
+                ],
+                "append-to-profile": "Invoke-Expression (& { $hook = if ($PSVersionTable.PSVersion.Major -ge 6) { 'pwd' } else { 'prompt' } (zoxide init powershell --hook $hook | Out-String) })\n"
+            },
+            "gh": {
+                "description": "The very useful github CLI tool, allows to create repos and releases from the command line.\nDon't miss this one, very useful :)\n",
+                "priority": "highest",
+                "type": "CLI",
+                "commands": [
+                    "scoop install gh"
+                ]
+            },
+            "Python": {
+                "description": "The slow but insanely popular language most data science & applied math\nfolks use. We're going to assume you'll be using this language before any other\nif you're a random person, or someone who wishes to perform some data related task.\nOkay, R exists, but it's much less universal.\n",
+                "priority": "highest",
+                "type": "language",
+                "admin": true,
+                "commands": [
+                    "scoop install python",
+                    "regedit.exe /s $(Resolve-Path \"~/scoop/apps/python/current/install*reg\")"
+                ]
+            },
+            "Go": {
+                "description": "A relatively fast and C++ like modern language from Google.\nA lot of important CLI tools can be instantly installed using\nthe `go install github.com/<user>/<repo>@latest` which makes it\nincredibly potent for fast setups\n",
+                "priority": "highest",
+                "type": "language",
+                "commands": [
+                    "scoop install go"
+                ]
+            },
+            "Ghrel": {
+                "description": "A CLI tool that instantly downloads latest releases from github repositories.\nYou just have to `ghrel github.com/<user>/<repo>@latest` and you instantly get the\ncontent. Very useful to download portable exes or fonts from github\n",
+                "priority": "important",
+                "type": "CLI",
+                "commands": [
+                    "go install github.com/jreisinger/ghrel@latest"
+                ]
+            },
+            "Bat": {
+                "description": "A much friendlier version of cURL and `irm` written in go\n",
+                "priority": "important",
+                "type": "CLI",
+                "commands": [
+                    "go install github.com/astaxie/bat"
+                ]
+            },
+            "jq-yq": {
+                "description": "CLI to filter/process json (jq) or YAML (yq).\nBoth are fairly important and useful, so having them cannot hurt.\n",
+                "priority": "important",
+                "type": "CLI",
+                "commands": [
+                    "scoop install jq",
+                    "scoop install yq"
+                ]
+            },
+            "Nerd-Fonts": {
+                "description": "Nerd fonts are a special kind of font that has been designed to make code\nand other technical (scientific, math) syntax much more pleasing and easy to read.\nMost people who code a lot use Nerd-Fonts because it just makes it much more appealing.\n",
+                "type": "font",
+                "priority": "important",
+                "admin": true,
+                "commands": [
+                    "sudo scoop install -g FiraCode-NF",
+                    "sudo scoop install -g Iosevka-NF"
+                ]
+            },
+            "Terminal-Icons": {
+                "description": "Useful as a complement to Nerd fonts and/or starship/oh-my-posh.\n",
+                "type": "UI",
+                "priority": "preferable",
+                "commands": [
+                    "Install-Module -Name Terminal-Icons -Repository PSGallery"
+                ]
+            }
+        },
+        "commands": {
+            "description": "This is a way to specify the order in which the packages should be installed.\nThis list of commands is then put into a single powershell script and compiled to an\nexecutable for anyone to use !\n",
+            "steps": [
+                "Scoop",
+                "git",
+                "Aria2",
+                "Scoop-Buckets",
+                "sudo",
+                "Windows Terminal",
+                "coreutils",
+                "psutils",
+                "gh",
+                "zoxide",
+                "Python",
+                "Go",
+                "Ghrel",
+                "Bat",
+                "jq-yq",
+                "Nerd-Fonts",
+                "Terminal-Icons"
+            ]
+        }
+    },
+    "dev": {
+        "description": "These are developper (or more advanced) options which are good to have,\nbut are more consuming. They involve downloading Visual Studio C++ Build Tools,\nwhich at least takes 5 minutes. This way you then have access to the entire rust\ntoolchain and can install rust CLIs and tools.\n",
+        "Visual Studio Build Tools": {
+            "description": "The absolute minimum to have in order to compile lots of low level code,\nand a necessity to use rust's `cargo install` command.\n",
+            "priority": "highest",
+            "type": "toolkit",
+            "commands": "Invoke-WebRequest -Uri 'https://aka.ms/vs/17/release/vs_BuildTools.exe' -OutFile \"$env:TEMP\\vs_BuildTools.exe\"\n& \"$env:TEMP\\vs_BuildTools.exe\" --force --quiet --wait --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --remove Microsoft.VisualStudio.Component.VC.CMake.Project\n$startTime = $(Get-Date).Ticks\nWhile ($(ps | sls vs_BuildTools).Length -gt 0) {\n  $currTime = $startTime = $(Get-Date).Ticks\n  $elapsed = $currTime - $startTime\n  Write-\n}\n"
+        },
+        "Git-Semver": {
+            "description": "A go implementation of the git semantic revisioning tag cli.\nAutomatically bumps versions like 01.32.12 to 01.32.13 etc.\n",
+            "priority": "useful",
+            "type": "CLI",
+            "commands": [
+                "go install github.com/maykonlf/semver-cli/cmd/semver@latest"
+            ]
+        }
+    }
+}

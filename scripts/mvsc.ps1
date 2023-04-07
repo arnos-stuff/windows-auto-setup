@@ -2,8 +2,6 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 Invoke-WebRequest -Uri 'https://aka.ms/vs/17/release/vs_BuildTools.exe' -OutFile "$env:TEMP\vs_BuildTools.exe"
 & "$env:TEMP\vs_BuildTools.exe" --force --quiet --wait --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --remove Microsoft.VisualStudio.Component.VC.CMake.Project
 
-
-
 function GetETA($startRefDate, $lengthSeconds) { 
     $Delta = $( $startRefDate.AddSeconds($lengthSeconds).Ticks - $(Get-Date).Ticks)
     return $(Get-Date $Delta -Format "HH:MM:ss")

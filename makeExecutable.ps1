@@ -38,4 +38,33 @@
 #       virtualize = application virtualization is activated (forcing x86 runtime)
 #        longPaths = enable long paths ( > 260 characters) if enabled on OS (works only with Windows 10 or up)
 
-Invoke-PS2EXE -inputFile mvsc.ps1 -outputFile 'msvc-installer.exe' -noError -title 'MVSC Installer' -MTA -description 'Installs MS Visual Studio Build Tools C++ using the provided official link by microsoft' -UNICODEEncoding -WarningAction SilentlyContinue -ErrorAction Inquire ;
+param (
+    $inputFile,
+    $o = $null,
+    $outputDir = $null,
+    $isGUI = $false,
+    $title = "Windows Dependency Installer",
+    $description = $null
+)
+
+if (-not $inputFile) {
+    While (-not $(Test-Path -Path $inputFile) ) {
+        Write-Host "❌ Incorrect or non-existent path !" -ForegroundColor Red
+        $inputFile = Read-Host "Please give the path to your script"
+    }
+    Write-Host "✅ Correct path to file 📁 received" -ForegroundColor Green ;
+}
+
+if ($o -or $outputDir) {
+    if($o) {$out = $o } else {$out = $outputDir}
+}
+if ($isGUI) { $out = "gui-"+$out;}
+
+if ($isGUI) {
+    Invoke-PS2EXE -inputFile $inputFile -outputFile $out -noError -title 'MVSC Installer' -MTA -description 'Installs MS Visual Studio Build Tools C++ using the provided official link by microsoft' -UNICODEEncoding -WarningAction SilentlyContinue -ErrorAction Inquire -noConsole;
+}
+else {
+    Invoke-PS2EXE -inputFile $inputFile -outputFile $out -title 'MVSC Installer' -MTA -description 'Installs MS Visual Studio Build Tools C++ using the provided official link by microsoft' -UNICODEEncoding -WarningAction SilentlyContinue -ErrorAction Inquire ;
+}
+
+Write-Host "🤖 Created executable ⚙️ from $inputFile"

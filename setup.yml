@@ -8,10 +8,8 @@ init:
         The single best package manager on Windows, chocolatey is
         similar but scoop is best.
       type: Package Manager
-      
       priority: highest
-      
-      commmands:
+      commands:
         - Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
         - irm get.scoop.sh | iex
     
@@ -19,6 +17,10 @@ init:
       description: |
         Scoop can leverage Aria2 to download every package using parallel processes
         and thus make your installs go much faster. Very important to get first.
+      type: Downloader
+      priority: highest
+      commands:
+        - scoop install aria2
     
     git:
       description: |
@@ -71,6 +73,8 @@ init:
         usually pre-installed on unix but not on windows.
       priority: highest
       type: CLI
+      commands:
+        - scoop install coreutils
     
     psutils:
       description: |
@@ -78,6 +82,8 @@ init:
         usually pre-installed on unix but not on windows.
       priority: highest
       type: CLI
+      commands:
+        - scoop install psutils
     
     zoxide:
       description: |
@@ -171,7 +177,7 @@ init:
       commands:
         - Install-Module -Name Terminal-Icons -Repository PSGallery
   
-  commands:
+  run:
     description: |
       This is a way to specify the order in which the packages should be installed.
       This list of commands is then put into a single powershell script and compiled to an
@@ -200,19 +206,31 @@ dev:
     but are more consuming. They involve downloading Visual Studio C++ Build Tools,
     which at least takes 5 minutes. This way you then have access to the entire rust
     toolchain and can install rust CLIs and tools.
-
-  Visual Studio Build Tools:
-    description: |
-      The absolute minimum to have in order to compile lots of low level code,
-      and a necessity to use rust's `cargo install` command.
-    priority: highest
-    type: toolkit
-    commands: |
-      Invoke-WebRequest -Uri 'https://aka.ms/vs/17/release/vs_BuildTools.exe' -OutFile "$env:TEMP\vs_BuildTools.exe"
-      & "$env:TEMP\vs_BuildTools.exe" --force --quiet --wait --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --remove Microsoft.VisualStudio.Component.VC.CMake.Project
-      $startTime = $(Get-Date).Ticks
-      While ($(ps | sls vs_BuildTools).Length -gt 0) {
-        $currTime = $startTime = $(Get-Date).Ticks
-        $elapsed = $currTime - $startTime
-        Write-
-      }
+  items:
+    Visual Studio Build Tools:
+      description: |
+        The absolute minimum to have in order to compile lots of low level code,
+        and a necessity to use rust's `cargo install` command.
+      priority: highest
+      type: toolkit
+      commands: |
+        Invoke-WebRequest -Uri 'https://aka.ms/vs/17/release/vs_BuildTools.exe' -OutFile "$env:TEMP\vs_BuildTools.exe"
+        & "$env:TEMP\vs_BuildTools.exe" --force --quiet --wait --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --remove Microsoft.VisualStudio.Component.VC.CMake.Project
+        $startTime = $(Get-Date).Ticks
+        While ($(ps | sls vs_BuildTools).Length -gt 0) {
+          $currTime = $startTime = $(Get-Date).Ticks
+          $elapsed = $currTime - $startTime
+          Write-
+        }
+    Git-Semver:
+      description: |
+        A go implementation of the git semantic revisioning tag cli.
+        Automatically bumps versions like 01.32.12 to 01.32.13 etc.
+      priority: useful
+      type: CLI
+      commands:
+        - go install github.com/maykonlf/semver-cli/cmd/semver@latest
+  run:
+    steps:
+      - Visual Studio Build Tools
+      - Git-Semver
